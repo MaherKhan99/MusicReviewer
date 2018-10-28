@@ -2,7 +2,7 @@
 
    <div class="row">
         <div class="col-md-3">
-            <p class="lead">YelpCamp</p>
+            <p class="lead">Music App</p>
             <div class="list-group">
                 <li class="list-group-item active">Info 1</li>
                 <li class="list-group-item">Info 2</li>
@@ -11,22 +11,22 @@
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src="<%= campground.image %>">
+                <img class="img-responsive" src="<%= song.image %>">
                 <div class="caption-full">
-                    <h4 class="pull-right">$9.00/night</h4>
-                    <h4><a><%=campground.name%></a></h4>
-                    <p><%= campground.description %></p>
+                    <h4 class="pull-right"><%= song.artist %></h4>
+                    <h4><a><%=song.name%></a></h4>
+                    <p><%= song.album %></p>
                     <p>
-                        <em>Submitted By <%= campground.author.username %></em>
+                        <em>Submitted By <%= song.author.username %></em>
                     </p>
-                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                        <form class="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                    <% if(currentUser && song.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-xs btn-warning" href="/songs/<%= song._id %>/edit">Edit</a>
+                        <form class="delete-form" action="/songs/<%= song._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% } %>
                     <div style="margin-top: 10px;">
-                        <a class="btn btn-default" href="/campgrounds"><i class="fa fa-arrow-left"></i> Go back</a>
+                        <a class="btn btn-default" href="/songs"><i class="fa fa-arrow-left"></i> Go back</a>
                     </div>
                 </div>
             </div>
@@ -34,25 +34,25 @@
             <!--Review section-->
             <div class="thumbnail">
                 <div class="caption-full">
-                    <% if (campground.rating === 0) { %>
+                    <% if (song.rating === 0) { %>
                     <h5>
                         <em>No reviews yet.</em>
                     </h5>
                     <% } else { %>
                     <p>
                         <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
-                        <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
-                        <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
-                        <span class="fa fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
-                        <em>(total reviews: <%= campground.reviews.length %>)</em>
+                        <span class="fa fa-star <% if (song.rating > 1.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (song.rating > 2.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (song.rating > 3.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (song.rating > 4.5) { %> checked <% } %>"></span>
+                        <em>(total reviews: <%= song.reviews.length %>)</em>
                     </p>
                     <p>
-                        Current campground rating: <strong><%= campground.rating.toFixed(2) %></strong>
+                        Current song rating: <strong><%= song.rating.toFixed(2) %></strong>
                     </p>
-                    <p><h4>Latest reviews for this campground:</h4></p>
+                    <p><h4>Latest reviews for this song:</h4></p>
                     <hr style="margin-top: 0;">
-                    <% campground.reviews.slice(0, 5).forEach(function(review){ %>
+                    <% song.reviews.slice(0, 5).forEach(function(review){ %>
                     <div class="row">
                         <div class="col-md-3">
                             <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
@@ -65,8 +65,8 @@
                             </p>
                             <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning"
-                               href="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>/edit">Edit</a>
-                            <form class="delete-form" action="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                               href="/songs/<%=song._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                            <form class="delete-form" action="/songs/<%=song._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                             </form>
                             <% } %>
@@ -75,11 +75,11 @@
                     <hr>
                     <% }); %>
                     <div style="margin-bottom: 10px;">
-                        <h4><a href="/campgrounds/<%= campground._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i> See all reviews</a></h4>
+                        <h4><a href="/songs/<%= song._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i> See all reviews</a></h4>
                     </div>
                     <% } %>
                     <div>
-                        <a class="btn btn-primary btn-lg <% if (currentUser && campground.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/campgrounds/<%= campground._id %>/reviews/new">
+                        <a class="btn btn-primary btn-lg <% if (currentUser && song.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/songs/<%= song._id %>/reviews/new">
                             Write a New Review</a>
                     </div>
                 </div>
@@ -88,10 +88,10 @@
             <!--Comment section-->
             <div class="well">
                 <div class="text-right">
-                    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+                    <a class="btn btn-success" href="/songs/<%= song._id %>/comments/new">Add New Comment</a>
                 </div>
                 <hr>
-                <% campground.comments.forEach(function(comment){ %>
+                <% song.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
@@ -101,8 +101,8 @@
                             </p>
                         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning"
-                               href="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>/edit">Edit</a>
-                            <form class="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                               href="/songs/<%=song._id %>/comments/<%=comment._id %>/edit">Edit</a>
+                            <form class="delete-form" action="/songs/<%=song._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                             </form>
                         <% } %>

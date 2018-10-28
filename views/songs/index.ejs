@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<header class="jumbotron">
+        <div class="container">
+            <h1>Welcome To YelpCamp!</h1>
+            <p>View our hand-picked songs from all over the world</p>
+            <p>
+                <a class="btn btn-primary btn-large" href="/songs/new">Add New Song</a>
+            </p>
+        </div>
+    </header>
+
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% songs.forEach(function(song){ %>
+        <div class="col-md-3 col-sm-6">
+            <div class="thumbnail">
+                <img src="<%= song.image %>">
+                <div class="caption">
+                    <h4><%= song.name %></h4>
+                    <% if (song.rating === 0) { %>
+                    <em>No reviews yet.</em>
+                    <% } else { %>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star <% if (song.rating > 1.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (song.rating > 2.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (song.rating > 3.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (song.rating > 4.5) { %> checked <% } %>"></span>
+                    <% } %>
+                </div>
+                <p>
+                    <a href="/songs/<%= song._id %>" class="btn btn-primary">More Info</a>
+                </p>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+
+<% include ../partials/footer %>

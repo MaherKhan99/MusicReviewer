@@ -7,11 +7,11 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var User = require("./models/user");
-mongoose.connect("mongodb://localhost:27017/yelp_camp",  { useNewUrlParser: true });
-var Campground = require("./models/campgrounds");
+mongoose.connect("mongodb://localhost:27017/music_app",  { useNewUrlParser: true });
+var Song = require("./models/songs");
 var Comment = require("./models/comments");
 var seedDB = require("./seeds");
-var campgroundRoutes = require("./routes/campgrounds");
+var songRoutes = require("./routes/songs");
 var commentRoutes = require("./routes/comments");
 var authRoutes = require("./routes/auth");
 var reviewRoutes = require("./routes/reviews");
@@ -42,12 +42,12 @@ app.use(function(req, res, next){
     next();
 });
 
-app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/songs", songRoutes);
+app.use("/songs/:id/comments", commentRoutes);
 app.use(authRoutes);
-app.use("/campgrounds/:id/reviews", reviewRoutes);
+app.use("/songs/:id/reviews", reviewRoutes);
 
 
 app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("Yelp Camp server has started!");
+    console.log("Music App server has started!");
 })

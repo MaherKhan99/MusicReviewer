@@ -1,4 +1,4 @@
-var Campground = require("../models/campgrounds");
+var Song = require("../models/songs");
 var Comment = require("../models/comments");
 var Review = require("../models/reviews");
 
@@ -6,14 +6,14 @@ var Review = require("../models/reviews");
 
 var middlewareObj = {};
 
-middlewareObj.checkCampgroundOwnership = function(req, res, next){
+middlewareObj.checkSongOwnership = function(req, res, next){
     if(req.isAuthenticated()){
-            Campground.findById(req.params.id, function(err, foundCampground){
+            Song.findById(req.params.id, function(err, foundSong){
                 if(err){
-                    req.flash("error", "campground not found");
+                    req.flash("error", "Song not found");
                     res.redirect("back");
             }   else {
-            if (foundCampground.author.id.equals(req.user._id)){
+            if (foundSong.author.id.equals(req.user._id)){
                 next();
             } else {
                 req.flash("error", "You don't have permission to do that");
@@ -80,13 +80,13 @@ middlewareObj.checkReviewOwnership = function(req, res, next) {
 
 middlewareObj.checkReviewExistence = function (req, res, next) {
     if (req.isAuthenticated()) {
-        Campground.findById(req.params.id).populate("reviews").exec(function (err, foundCampground) {
-            if (err || !foundCampground) {
-                req.flash("error", "Campground not found.");
+        Song.findById(req.params.id).populate("reviews").exec(function (err, foundSong) {
+            if (err || !foundSong) {
+                req.flash("error", "Song not found.");
                 res.redirect("back");
             } else {
-                // check if req.user._id exists in foundCampground.reviews
-                var foundUserReview = foundCampground.reviews.some(function (review) {
+                // check if req.user._id exists in foundSong.reviews
+                var foundUserReview = foundSong.reviews.some(function (review) {
                     return review.author.id.equals(req.user._id);
                 });
                 if (foundUserReview) {

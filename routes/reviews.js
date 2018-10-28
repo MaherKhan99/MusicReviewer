@@ -1,40 +1,40 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
-var Campground = require("../models/campgrounds");
+var Song = require("../models/songs");
 var Review = require("../models/reviews");
 var middleware = require("../middleware");
 
 // Reviews Index
 router.get("/", function (req, res) {
-    Campground.findById(req.params.id).populate({
+    Song.findById(req.params.id).populate({
         path: "reviews",
         options: {sort: {createdAt: -1}} // sorting the populated reviews array to show the latest first
-    }).exec(function (err, campground) {
-        if (err || !campground) {
+    }).exec(function (err, song) {
+        if (err || !song) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        res.render("reviews/index", {campground: campground});
+        res.render("reviews/index", {song: song});
     });
 });
 
 // Reviews New
 router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
-    // middleware.checkReviewExistence checks if a user already reviewed the campground, only one review per user is allowed
-    Campground.findById(req.params.id, function (err, campground) {
+    // middleware.checkReviewExistence checks if a user already reviewed the song, only one review per user is allowed
+    Song.findById(req.params.id, function (err, song) {
         if (err) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        res.render("reviews/new", {campground: campground});
+        res.render("reviews/new", {song: song});
 
     });
 });
 
 // Reviews Create
 router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
-    //lookup campground using ID
-    Campground.findById(req.params.id).populate("reviews").exec(function (err, campground) {
+    //lookup song using ID
+    Song.findById(req.params.id).populate("reviews").exec(function (err, song) {
         if (err) {
             req.flash("error", err.message);
             return res.redirect("back");
@@ -44,19 +44,19 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, functio
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            //add author username/id and associated campground to the review
+            //add author username/id and associated song to the review
             review.author.id = req.user._id;
             review.author.username = req.user.username;
-            review.campground = campground;
+            review.song = song;
             //save review
             review.save();
-            campground.reviews.push(review);
-            // calculate the new average review for the campground
-            campground.rating = calculateAverage(campground.reviews);
-            //save campground
-            campground.save();
+            song.reviews.push(review);
+            // calculate the new average review for the song
+            song.rating = calculateAverage(song.reviews);
+            //save song
+            song.save();
             req.flash("success", "Your review has been successfully added.");
-            res.redirect('/campgrounds/' + campground._id);
+            res.redirect('/songs/' + song._id);
         });
     });
 });
@@ -68,7 +68,7 @@ router.get("/:review_id/edit", middleware.checkReviewOwnership, function (req, r
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        res.render("reviews/edit", {campground_id: req.params.id, review: foundReview});
+        res.render("reviews/edit", {song_id: req.params.id, review: foundReview});
     });
 });
 
@@ -79,17 +79,17 @@ router.put("/:review_id", middleware.checkReviewOwnership, function (req, res) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        Campground.findById(req.params.id).populate("reviews").exec(function (err, campground) {
+        Song.findById(req.params.id).populate("reviews").exec(function (err, song) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            // recalculate campground average
-            campground.rating = calculateAverage(campground.reviews);
+            // recalculate song average
+            song.rating = calculateAverage(song.reviews);
             //save changes
-            campground.save();
+            song.save();
             req.flash("success", "Your review was successfully edited.");
-            res.redirect('/campgrounds/' + campground._id);
+            res.redirect('/songs/' + song._id);
         });
     });
 });
@@ -101,17 +101,17 @@ router.delete("/:review_id", middleware.checkReviewOwnership, function (req, res
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        Campground.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function (err, campground) {
+        Song.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function (err, song) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            // recalculate campground average
-            campground.rating = calculateAverage(campground.reviews);
+            // recalculate song average
+            song.rating = calculateAverage(song.reviews);
             //save changes
-            campground.save();
+            song.save();
             req.flash("success", "Your review was deleted successfully.");
-            res.redirect("/campgrounds/" + req.params.id);
+            res.redirect("/songs/" + req.params.id);
         });
     });
 });

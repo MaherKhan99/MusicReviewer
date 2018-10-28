@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Campground = require("./models/campgrounds");
+var Song = require("./models/songs");
 var Comment = require("./models/comments")
 
 var data = [
@@ -22,23 +22,23 @@ var data = [
 
 
 function seedDB(){
-        Campground.deleteMany({}, function(err, removedCampground){
+        Song.deleteMany({}, function(err, removedSong){
         if(err){
             console.log(err);
         } else {
-            console.log("removed campground");
+            console.log("removed song");
             data.forEach(function(seed){
-                Campground.create(seed, function(err, campground){
+                Song.create(seed, function(err, song){
                     if(err){
                         console.log(err);
                     } else {
-                        console.log("Added a campground");
+                        console.log("Added a song");
                         Comment.create({text: "This place is great", author: "Homer"}, function(err, comment){
                             if(err){
                                 console.log(err);
                             } else {
-                                campground.comments.push(comment);
-                                campground.save();
+                                song.comments.push(comment);
+                                song.save();
                                 console.log("created new comment");
                             }
                         });
