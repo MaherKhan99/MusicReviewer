@@ -31,6 +31,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
+            console.log(newSong.name);
              res.redirect("/songs");
         }
     });
@@ -79,13 +80,13 @@ router.delete("/:id", middleware.checkSongOwnership, function (req, res) {
             res.redirect("/songs");
         } else {
             // deletes all comments associated with the song
-            Comment.remove({"_id": {$in: song.comments}}, function (err) {
+            Comment.deleteMany({"_id": {$in: song.comments}}, function (err) {
                 if (err) {
                     console.log(err);
                     return res.redirect("/songs");
                 }
                 // deletes all reviews associated with the song
-                Review.remove({"_id": {$in: song.reviews}}, function (err) {
+                Review.deleteMany({"_id": {$in: song.reviews}}, function (err) {
                     if (err) {
                         console.log(err);
                         return res.redirect("/songs");
