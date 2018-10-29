@@ -1,12 +1,17 @@
 <% include ../partials/header %>
 
-<div class="container">
-    <h4>Other songs by <%=name%>: </h4>
-    <% data["results"].forEach(function(song){ %>
-    <li><%= song["trackName"] %></li>
-<% }) %>
-</div>
-
+    <div class="row">
+    
+        <h1 style="text-align: center">Results for <%=name%>:</h1>
+            <div style="width: 50%; margin: 25px auto;">
+                <% data["results"].forEach(function(song){ %>
+                    <li><%= song["trackName"] %> - <%= song["artistName"] %> - <a href="https://www.youtube.com/results?search_query=<%= song["trackName"] %>+<%= song["artistName"] %>">Listen to it here!</a></li>
+                <% }) %>
+                <div style="padding: 10px;">
+                    <a href="/songs/search">Search for another song or artist!</a>
+                </div>
+            </div>
+    </div>
 
 
 <% include ../partials/footer %>

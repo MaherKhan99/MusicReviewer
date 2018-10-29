@@ -21,3 +21,12 @@
 .delete-form{
     display: inline-block;
 }
+
+#center {
+    margin: auto;
+    width: 750px;
+}
+
+
+
+

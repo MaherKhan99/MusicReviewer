@@ -1,15 +1,7 @@
 <% include ../partials/header %>
-
+<div id="center">   
    <div class="row">
-        <div class="col-md-3">
-            <p class="lead">Music App</p>
-            <div class="list-group">
-                <li class="list-group-item active">Info 1</li>
-                <li class="list-group-item">Info 2</li>
-                <li class="list-group-item">Info 3</li>
-            </div>
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="thumbnail">
                 <img class="img-responsive" src="<%= song.image %>">
                 <div class="caption-full">
@@ -19,6 +11,7 @@
                     <p>
                         <em>Submitted By <%= song.author.username %></em>
                     </p>
+                    <a href = "https://www.youtube.com/results?search_query=<%=song.name%>+<%= song.artist %>" target = "_blank">Listen to it here!</a>
                     <% if(currentUser && song.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/songs/<%= song._id %>/edit">Edit</a>
                         <form class="delete-form" action="/songs/<%= song._id %>?_method=DELETE" method="POST">
@@ -112,4 +105,5 @@
             </div>
         </div>
     </div>
+</div> 
 <% include ../partials/footer %>
