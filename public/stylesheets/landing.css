@@ -40,22 +40,22 @@ body{
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(http://i.imgur.com/K3mPv14.jpg) 
+  background-image: url(https://www.straitstimes.com/sites/default/files/articles/2017/03/30/capture.jpg) 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(http://i.imgur.com/SBEmFpv.jpg);
+  background-image: url(http://webneel.com/daily/sites/default/files/images/daily/05-2014/nature-music.jpg);
   animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(http://i.imgur.com/emvhOnb.jpg);
+  background-image: url(https://www.newmusicusa.org/wp-content/uploads/nmbx/2015/11/fern-notation.jpg);
   animation-delay: 20s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
+  background-image: url(https://i.redd.it/6008saat3h5z.jpg);
   animation-delay: 30s; 
 }
 .slideshow li:nth-child(5) { 
-  background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
+  background-image: url(http://performermag.com/wp-content/uploads/2013/12/sheet-music.jpg);
   animation-delay: 40s; 
 }
 

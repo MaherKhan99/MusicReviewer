@@ -1,0 +1,12 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <h4>Other songs by <%=name%>: </h4>
+    <% data["results"].forEach(function(song){ %>
+    <li><%= song["trackName"] %></li>
+<% }) %>
+</div>
+
+
+
+<% include ../partials/footer %>

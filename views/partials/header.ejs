@@ -3,7 +3,7 @@
 <head>
     <!-- Make site responsive on mobile/tablet -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Music App</title>
+	<title>RateMyMusic</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/stylesheets/main.css">
@@ -19,11 +19,11 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="/">MusicApp</a>
+            <a class="navbar-brand" href="/">RateMyMusic</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a href="/campgrounds">Home</a></li>
+            <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a href="/songs">Home</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
               <% if(!currentUser){ %>

@@ -5,6 +5,7 @@ var Comment = require("../models/comments");
 var mongoose = require("mongoose");
 var middleware = require("../middleware"); //automatically requires index.js in the middlware directory
 var Review = require("../models/reviews");
+var request = require("request");
 mongoose.set('useFindAndModify', false);
 
 router.get("/", function(req, res){
@@ -31,8 +32,22 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err);
         } else {
-            console.log(newSong.name);
-             res.redirect("/songs");
+            res.redirect("/songs");
+        }
+    });
+});
+
+router.get("/search", function(req, res) {
+    res.render("songs/search");
+});
+
+router.get("/results", function(req, res){
+    var name = req.query.name;
+    var url = "https://itunes.apple.com/search?term=" + name;
+    request(url, function(error, response, body){
+        var data = JSON.parse(body);
+        if (!error && response.statusCode == 200){
+            res.render("songs/results", {data: data, name : name});
         }
     });
 });
