@@ -3,7 +3,7 @@
    <div class="row">
         <div class="col-md-12">
             <div class="thumbnail">
-                <img class="img-responsive" src="<%= song.image %>">
+                <iframe src="<%= song.link %>" frameborder="0" allowfullscreen></iframe>
                 <div class="caption-full">
                     <h4 class="pull-right"><%= song.artist %></h4>
                     <h4><a><%=song.name%></a></h4>
@@ -11,7 +11,7 @@
                     <p>
                         <em>Submitted By <%= song.author.username %></em>
                     </p>
-                    <a href = "https://www.youtube.com/results?search_query=<%=song.name%>+<%= song.artist %>" target = "_blank">Listen to it here!</a>
+                    <img id="album-cover" class="img-responsive" src="<%= song.image %>">
                     <% if(currentUser && song.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/songs/<%= song._id %>/edit">Edit</a>
                         <form class="delete-form" action="/songs/<%= song._id %>?_method=DELETE" method="POST">

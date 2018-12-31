@@ -2,7 +2,7 @@
 
 <header class="jumbotron">
         <div class="container">
-            <h1>Welcome To RateMyMusic!</h1>
+            <h1>Welcome to MusicReviewer</h1>
             <p>Share and discuss your favorite songs with others!</p>
             <p>
                 <a class="btn btn-primary btn-large" href="/songs/new">Add New Song</a>
@@ -11,11 +11,11 @@
         </div>
     </header>
 
-    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+    <div class="row display-flex text-center" style="display:flex; flex-wrap: wrap;">
         <% songs.forEach(function(song){ %>
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
-                <img src="<%= song.image %>">
+                <img id="thumbnail-image" src="<%= song.image %>">
                 <div class="caption">
                     <h4><%= song.name %></h4>
                     <% if (song.rating === 0) { %>

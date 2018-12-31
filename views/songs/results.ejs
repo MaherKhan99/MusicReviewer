@@ -1,10 +1,11 @@
 <% include ../partials/header %>
+<div class="container">
 
     <div class="row">
     
         <h1 style="text-align: center">Results for <%=name%>:</h1>
             <div style="width: 50%; margin: 25px auto;">
-            <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            <div class="row display-flex text-center" style="display:flex; flex-wrap: wrap;">
                 <% data["results"].forEach(function(song){ %>
                 <div class="col-md-3 col-sm-6">
                     <div class="thumbnail" id="results-thumbnail">
@@ -23,6 +24,7 @@
                 </div>
             </div>
     </div>
+</div> 
 
 
 <% include ../partials/footer %>

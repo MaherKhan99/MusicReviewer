@@ -7,6 +7,7 @@ var songSchema = new mongoose.Schema({
     artist: String,
     image: String,
     album: String,
+    link: String,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -30,5 +31,5 @@ var songSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Campground", songSchema);
+module.exports = mongoose.model("Song", songSchema);
 

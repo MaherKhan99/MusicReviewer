@@ -8,6 +8,7 @@ var Review = require("../models/reviews");
 var request = require("request");
 mongoose.set('useFindAndModify', false);
 
+//renders the index page
 router.get("/", function(req, res){
     Song.find({}, function(err, allSongs){
         if(err){
@@ -18,17 +19,20 @@ router.get("/", function(req, res){
     });
 });
 
+
+//adds a new song to the index page
 router.post("/", middleware.isLoggedIn, function(req, res){
     var name = req.body.name;
     var artist = req.body.artist;
     var image = req.body.image;
     var album = req.body.album;
+    var link = req.body.link.replace("watch?v=", "embed/");
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newSong = {name: name, artist: artist, image: image, album: album, author: author};
-    Song.create(newSong, function(err, newSong){ //instead of pushing on to an array, we save it to db
+    var newSong = {name: name, artist: artist, image: image, album: album, link: link, author: author};
+    Song.create(newSong, function(err, newSong){ 
         if(err){
             console.log(err);
         } else {
@@ -37,10 +41,12 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//renders the search form
 router.get("/search", function(req, res) {
     res.render("songs/search");
 });
 
+//returns results of the search from the itunes search api
 router.get("/results", function(req, res){
     var name = req.query.name;
     var url = "https://itunes.apple.com/search?term=" + name;
@@ -52,10 +58,12 @@ router.get("/results", function(req, res){
     });
 });
 
+//renders the new song form
 router.get("/new", middleware.isLoggedIn, function(req, res){
     res.render("songs/new");
 });
 
+//show page for a specific song
 router.get("/:id", function (req, res) {
     //find the song with provided ID
     Song.findById(req.params.id).populate("comments").populate({
@@ -71,13 +79,14 @@ router.get("/:id", function (req, res) {
     });
 });
 
-
+//renders the edit song form
 router.get("/:id/edit", middleware.checkSongOwnership, function(req, res) {
     Song.findById(req.params.id, function(err, foundSong){
         res.render("songs/edit", {song: foundSong});
     });
 });
 
+//
 router.put("/:id", middleware.checkSongOwnership, function(req, res){
     Song.findByIdAndUpdate(req.params.id, req.body.song, function(err, updatedSong){
         if(err){

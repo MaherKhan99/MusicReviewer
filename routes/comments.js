@@ -4,7 +4,7 @@ var Song = require("../models/songs");
 var Comment = require("../models/comments");
 var middleware = require("../middleware");
 
-
+//render new comment form
 router.get("/new", middleware.isLoggedIn, function(req, res){
     Song.findById(req.params.id, function(err, song){
         if(err){
@@ -16,6 +16,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 
 });
 
+//posts a comment to the associated campground
 router.post("/", middleware.isLoggedIn, function(req, res){
     Song.findById(req.params.id, function(err, song){
         if(err){
@@ -40,6 +41,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+
+//renders the edit comment form
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if(err){
@@ -50,6 +53,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
     });
 });
 
+//edits a comment
 router.put("/:comment_id", middleware.checkCommentOwnership, function(req,res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){
@@ -60,6 +64,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req,res){
     });
 });
 
+//destroys a comment
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if(err){
