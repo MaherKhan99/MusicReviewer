@@ -88,6 +88,8 @@ router.get("/:id/edit", middleware.checkSongOwnership, function(req, res) {
 
 //
 router.put("/:id", middleware.checkSongOwnership, function(req, res){
+    var link = req.body.song.link.replace("watch?v=", "embed/");
+    req.body.song.link = link;
     Song.findByIdAndUpdate(req.params.id, req.body.song, function(err, updatedSong){
         if(err){
             res.redirect("/songs");
